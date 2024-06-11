@@ -1,8 +1,9 @@
 <!-- contact-add.component.html -->
 
-<h2>Agregar Contacto</h2>
 
 <div class="container">
+  <h2>Agregar Contacto</h2>
+
   <form (ngSubmit)="onSubmit()" class="form">
     <div class="mb-3">
       <label for="nombre" class="form-label">Nombre:</label>
@@ -17,7 +18,7 @@
         <button type="button" class="btn btn-outline-danger" (click)="removeTelefono(i)">Eliminar</button>
       </div>
     </div>
-    <button type="button" class="btn btn-primary" (click)="addTelefono()">Agregar Teléfono</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="addTelefono()">Agregar Teléfono</button>
 
     <!-- Correos Electrónicos -->
     <div class="mb-3" *ngFor="let email of contact.emails; let i = index">
@@ -27,7 +28,7 @@
         <button type="button" class="btn btn-outline-danger" (click)="removeEmail(i)">Eliminar</button>
       </div>
     </div>
-    <button type="button" class="btn btn-primary" (click)="addEmail()">Agregar Email</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="addEmail()">Agregar Correo</button>
 
     <!-- Direcciones -->
     <div class="mb-3" *ngFor="let direccion of contact.direcciones; let i = index">
@@ -39,7 +40,7 @@
     </div>
 
     <div class="mb-3">
-      <button type="button" class="btn btn-primary" (click)="addDireccion()">Agregar Dirección</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="addDireccion()">Agregar Dirección</button>
     </div>
 
     <button type="submit" class="btn btn-success">Submit</button>
