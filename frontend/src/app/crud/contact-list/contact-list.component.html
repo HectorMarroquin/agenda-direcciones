@@ -1,0 +1,23 @@
+<!-- contact-list.component.html -->
+
+<h2>Lista de Contactos</h2>
+
+<button class="btn btn-primary" routerLink="/crud/add">Nuevo Contacto</button>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let contact of contacts">
+      <td>{{ contact.nombre }}</td>
+      <td>
+        <!-- <button (click)="editContact(contact.id)">Editar</button> -->
+        <button type="button" class="btn btn-danger" (click)="deleteContact(contact.id)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

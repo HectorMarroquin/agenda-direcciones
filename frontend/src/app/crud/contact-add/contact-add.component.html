@@ -1,0 +1,48 @@
+<!-- contact-add.component.html -->
+
+<h2>Agregar Contacto</h2>
+
+<div class="container">
+  <form (ngSubmit)="onSubmit()" class="form">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre:</label>
+      <input type="text" class="form-control" id="nombre" [(ngModel)]="contact.nombre" name="nombre" required>
+    </div>
+
+    <!-- Teléfonos -->
+    <div class="mb-3" *ngFor="let telefono of contact.telefonos; let i = index">
+      <label for="telefono{{ i }}" class="form-label">Teléfono {{ i + 1 }}:</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="telefono{{ i }}" [(ngModel)]="telefono.numero" name="telefono{{ i }}">
+        <button type="button" class="btn btn-outline-danger" (click)="removeTelefono(i)">Eliminar</button>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="addTelefono()">Agregar Teléfono</button>
+
+    <!-- Correos Electrónicos -->
+    <div class="mb-3" *ngFor="let email of contact.emails; let i = index">
+      <label for="email{{ i }}" class="form-label">Email {{ i + 1 }}:</label>
+      <div class="input-group">
+        <input type="email" class="form-control" id="email{{ i }}" [(ngModel)]="email.email" name="email{{ i }}">
+        <button type="button" class="btn btn-outline-danger" (click)="removeEmail(i)">Eliminar</button>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="addEmail()">Agregar Email</button>
+
+    <!-- Direcciones -->
+    <div class="mb-3" *ngFor="let direccion of contact.direcciones; let i = index">
+      <label for="direccion{{ i }}" class="form-label">Dirección {{ i + 1 }}:</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="direccion{{ i }}" [(ngModel)]="direccion.direccion" name="direccion{{ i }}">
+        <button type="button" class="btn btn-outline-danger" (click)="removeDireccion(i)">Eliminar</button>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <button type="button" class="btn btn-primary" (click)="addDireccion()">Agregar Dirección</button>
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+
+</div>
