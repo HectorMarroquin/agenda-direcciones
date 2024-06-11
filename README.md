@@ -17,7 +17,7 @@
 2. `ng serve`
 4. Acceder con credenciales:
  * usuario: lider@gmail.com
- * contraseÃ±a: 1234
+ * contraseña: 1234
 
 _Herramientas usadas:_
 
