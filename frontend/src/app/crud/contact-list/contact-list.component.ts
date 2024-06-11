@@ -50,16 +50,21 @@ export class ContactListComponent implements OnInit {
   }
 
   changePage(page: number) {
+
     this.currentPage = page;
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+
     const endIndex = startIndex + this.itemsPerPage;
+
     this.contacts = this.allContacts.slice(startIndex, endIndex);
+
   }
 
   pagesToShow(): number[] {
     const pages: number[] = [];
     const startPage = Math.max(1, this.currentPage - Math.floor(this.maxPagesToShow / 2));
     const endPage = Math.min(this.totalPages, startPage + this.maxPagesToShow - 1);
+
 
     for (let i = startPage; i <= endPage; i++) {
       pages.push(i);

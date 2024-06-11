@@ -1,8 +1,5 @@
-<!-- contact-add.component.html -->
-
-
 <div class="container">
-  <h2>Agregar Contacto</h2>
+  <h2>Editar Contacto</h2>
 
   <form (ngSubmit)="onSubmit()" class="form">
     <div class="mb-3">
@@ -38,12 +35,8 @@
         <button type="button" class="btn btn-outline-danger" (click)="removeDireccion(i)">Eliminar</button>
       </div>
     </div>
+    <button type="button" class="btn btn-primary btn-sm" (click)="addDireccion()">Agregar Dirección</button>
 
-    <div class="mb-3">
-      <button type="button" class="btn btn-primary btn-sm" (click)="addDireccion()">Agregar Dirección</button>
-    </div>
-
-    <button type="submit" class="btn btn-success">Submit</button>
+    <button type="submit" class="btn btn-success mt-3">Guardar Cambios</button>
   </form>
-
 </div>

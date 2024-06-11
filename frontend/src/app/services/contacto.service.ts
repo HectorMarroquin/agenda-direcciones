@@ -69,4 +69,18 @@ export class ContactService {
       })
     );
   }
+
+  getContact(id: number) {
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<any>(`${this.apiUrl}/contactos/${id}`, { headers }).pipe(
+      catchError(error => {
+        console.error('Error al obtener el contacto', error);
+        return throwError(error);
+      })
+    );
+  }
 }
