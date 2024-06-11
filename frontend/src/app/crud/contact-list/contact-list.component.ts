@@ -12,6 +12,7 @@ export class ContactListComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number = 0; // Inicializa totalPages
   itemsPerPage: number = 10;
+  maxPagesToShow: number = 5; // Número máximo de páginas que se mostrarán en la paginación
 
   constructor(private contactService: ContactService) { }
 
@@ -53,5 +54,17 @@ export class ContactListComponent implements OnInit {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.contacts = this.allContacts.slice(startIndex, endIndex);
+  }
+
+  pagesToShow(): number[] {
+    const pages: number[] = [];
+    const startPage = Math.max(1, this.currentPage - Math.floor(this.maxPagesToShow / 2));
+    const endPage = Math.min(this.totalPages, startPage + this.maxPagesToShow - 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    return pages;
   }
 }
