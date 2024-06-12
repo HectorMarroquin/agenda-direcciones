@@ -10,7 +10,7 @@ use App\Models\Direccion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Requests\StoreContactRequest;
 
 class ContactoController extends Controller
 {
@@ -31,23 +31,8 @@ class ContactoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreContactRequest $request)
     {
-        // Validación de los datos de entrada
-        $validator = Validator::make($request->all(), [
-            'nombre' => 'required|string',
-            'telefonos' => 'array',
-            'telefonos.*.numero' => 'required|numeric',
-            'emails' => 'array',
-            'emails.*.email' => 'required|email',
-            'direcciones' => 'array',
-            'direcciones.*.direccion' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
-        }
-
         try {
             DB::beginTransaction();
 
@@ -126,7 +111,7 @@ class ContactoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreContactRequest $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string',
