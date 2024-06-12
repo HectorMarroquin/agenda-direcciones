@@ -21,7 +21,7 @@
     <div class="mb-3" *ngFor="let email of contact.emails; let i = index">
       <label for="email{{ i }}" class="form-label">Email {{ i + 1 }}:</label>
       <div class="input-group">
-        <input type="email" class="form-control" id="email{{ i }}" [(ngModel)]="email.email" name="email{{ i }}">
+        <input type="email" class="form-control" id="email{{ i }}" [(ngModel)]="email.correo" name="email{{ i }}">
         <button type="button" class="btn btn-outline-danger" (click)="removeEmail(i)">Eliminar</button>
       </div>
     </div>

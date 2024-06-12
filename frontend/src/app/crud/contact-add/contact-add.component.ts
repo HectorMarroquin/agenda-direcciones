@@ -12,7 +12,7 @@ export class ContactAddComponent {
   contact = {
     nombre: '',
     telefonos: [{ numero: '' }],
-    emails: [{ email: '' }],
+    emails: [{ correo: '' }],
     direcciones: [{ direccion: '' }],
     user_id: ''
   };
@@ -34,7 +34,7 @@ export class ContactAddComponent {
   }
 
   addEmail(): void {
-    this.contact.emails.push({ email: '' });
+    this.contact.emails.push({ correo: '' });
   }
 
   removeEmail(index: number): void {
@@ -64,3 +64,4 @@ export class ContactAddComponent {
     );
   }
 }
+

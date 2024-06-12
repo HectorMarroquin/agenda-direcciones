@@ -35,8 +35,7 @@ export class ContactEditComponent implements OnInit {
     this.contactService.getContact(id).subscribe(
       data => {
         this.contact = data.contacto;
-
-        console.log(data.contacto);
+        console.log(this.contact);
 
       },
       error => {
@@ -54,7 +53,7 @@ export class ContactEditComponent implements OnInit {
   }
 
   addEmail(): void {
-    this.contact.emails.push({ email: '' });
+    this.contact.emails.push({ correo: '' });
   }
 
   removeEmail(index: number): void {
@@ -71,6 +70,8 @@ export class ContactEditComponent implements OnInit {
 
   onSubmit(): void {
     const contactId = +this.route.snapshot.paramMap.get('id')!;
+    console.log(this.contact);
+
     this.contactService.updateContact(contactId, this.contact).subscribe(
       () => {
         console.log('Contacto actualizado correctamente');
