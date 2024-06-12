@@ -146,34 +146,73 @@ class ContactoController extends Controller
             $contacto->nombre = $request->nombre;
             $contacto->save();
 
-            // Actualizar los teléfonos
+            // Manejar los teléfonos
             if ($request->has('telefonos')) {
-                foreach ($request->telefonos as $telefonoData) {
-                    $telefono = $contacto->telefonos()->updateOrCreate(
-                        ['id' => $telefonoData['id']], // Busca por id
-                        ['numero' => $telefonoData['numero']] // Actualiza el número
-                    );
+                $telefonosEnviados = collect($request->telefonos);
+                $telefonosIds = $telefonosEnviados->pluck('id')->filter()->toArray();
+                $contacto->telefonos()->whereNotIn('id', $telefonosIds)->delete();
+                foreach ($telefonosEnviados as $telefonoData) {
+                    if (isset($telefonoData['id'])) {
+                        $telefono = $contacto->telefonos()->find($telefonoData['id']);
+                        if ($telefono) {
+                            $telefono->numero = $telefonoData['numero'];
+                            $telefono->save();
+                        }
+                    } else {
+                        $contacto->telefonos()->create([
+                            'numero' => $telefonoData['numero'],
+                            'contacto_id' => $contacto->id,
+                        ]);
+                    }
                 }
+            } else {
+                $contacto->telefonos()->delete();
             }
 
-            // Actualizar los correos electrónicos
+            // Manejar los correos electrónicos
             if ($request->has('emails')) {
-                foreach ($request->emails as $emailData) {
-                    $correo = $contacto->correos()->updateOrCreate(
-                        ['id' => $emailData['id']], // Busca por id
-                        ['correo' => $emailData['correo']] // Actualiza el correo
-                    );
+                $emailsEnviados = collect($request->emails);
+                $emailsIds = $emailsEnviados->pluck('id')->filter()->toArray();
+                $contacto->correos()->whereNotIn('id', $emailsIds)->delete();
+                foreach ($emailsEnviados as $emailData) {
+                    if (isset($emailData['id'])) {
+                        $correo = $contacto->correos()->find($emailData['id']);
+                        if ($correo) {
+                            $correo->correo = $emailData['correo'];
+                            $correo->save();
+                        }
+                    } else {
+                        $contacto->correos()->create([
+                            'correo' => $emailData['correo'],
+                            'contacto_id' => $contacto->id,
+                        ]);
+                    }
                 }
+            } else {
+                $contacto->correos()->delete();
             }
 
-            // Actualizar las direcciones
+            // Manejar las direcciones
             if ($request->has('direcciones')) {
-                foreach ($request->direcciones as $direccionData) {
-                    $direccion = $contacto->direcciones()->updateOrCreate(
-                        ['id' => $direccionData['id']], // Busca por id
-                        ['direccion' => $direccionData['direccion']] // Actualiza la dirección
-                    );
+                $direccionesEnviadas = collect($request->direcciones);
+                $direccionesIds = $direccionesEnviadas->pluck('id')->filter()->toArray();
+                $contacto->direcciones()->whereNotIn('id', $direccionesIds)->delete();
+                foreach ($direccionesEnviadas as $direccionData) {
+                    if (isset($direccionData['id'])) {
+                        $direccion = $contacto->direcciones()->find($direccionData['id']);
+                        if ($direccion) {
+                            $direccion->direccion = $direccionData['direccion'];
+                            $direccion->save();
+                        }
+                    } else {
+                        $contacto->direcciones()->create([
+                            'direccion' => $direccionData['direccion'],
+                            'contacto_id' => $contacto->id,
+                        ]);
+                    }
                 }
+            } else {
+                $contacto->direcciones()->delete();
             }
 
             return response()->json(['message' => 'Contacto actualizado correctamente', 'contacto' => $contacto], 200);
@@ -182,6 +221,10 @@ class ContactoController extends Controller
             return response()->json(['message' => 'Error al actualizar el contacto', 'error' => $e->getMessage()], 500);
         }
     }
+
+
+
+
 
     /**
      * Remove the specified resource from storage.
