@@ -57,7 +57,7 @@ class ContactoController extends Controller
             if ($request->has('emails')) {
                 foreach ($request->emails as $emailData) {
                     $correo = new Correo([
-                        'correo' => $emailData['email'],
+                        'correo' => $emailData['correo'],
                         'contacto_id' => $contacto->id,
                     ]);
                     $correo->save();
@@ -95,13 +95,38 @@ class ContactoController extends Controller
      */
     public function show($id)
     {
-        try {
-            $contacto = Contacto::where('user_id', auth()->id())->findOrFail($id);
-            return response()->json(['contacto' => $contacto], 200);
 
-        } catch (\Exception $e) {
+        try {
+            // Buscar el contacto por su ID
+            $contacto = Contacto::with('telefonos', 'correos', 'direcciones')->findOrFail($id);
+
+            // Construir la respuesta para enviar al frontend
+            $response = [
+                'contacto' => [
+                    'id' => $contacto->id,
+                    'nombre' => $contacto->nombre,
+                    'telefonos' => $contacto->telefonos,
+                    'emails' => $contacto->correos,
+                    'direcciones' => $contacto->direcciones,
+                ],
+            ];
+
+            return response()->json($response, 200);
+
+        } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Contacto no encontrado', 'error' => $e->getMessage()], 404);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error al obtener el contacto', 'error' => $e->getMessage()], 500);
         }
+
+        // try {
+        //     $contacto = Contacto::where('user_id', auth()->id())->findOrFail($id);
+
+        //     return response()->json(['contacto' => $contacto], 200);
+
+        // } catch (\Exception $e) {
+        //     return response()->json(['message' => 'Contacto no encontrado', 'error' => $e->getMessage()], 404);
+        // }
     }
 
     /**
@@ -113,18 +138,43 @@ class ContactoController extends Controller
      */
     public function update(StoreContactRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'nombre' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
-        }
-
         try {
-            $contacto = Contacto::where('user_id', auth()->id())->findOrFail($id);
+            // Obtener el contacto
+            $contacto = Contacto::with('telefonos', 'correos', 'direcciones')->findOrFail($id);
+
+            // Actualizar el nombre
             $contacto->nombre = $request->nombre;
             $contacto->save();
+
+            // Actualizar los teléfonos
+            if ($request->has('telefonos')) {
+                foreach ($request->telefonos as $telefonoData) {
+                    $telefono = $contacto->telefonos()->updateOrCreate(
+                        ['id' => $telefonoData['id']], // Busca por id
+                        ['numero' => $telefonoData['numero']] // Actualiza el número
+                    );
+                }
+            }
+
+            // Actualizar los correos electrónicos
+            if ($request->has('emails')) {
+                foreach ($request->emails as $emailData) {
+                    $correo = $contacto->correos()->updateOrCreate(
+                        ['id' => $emailData['id']], // Busca por id
+                        ['correo' => $emailData['correo']] // Actualiza el correo
+                    );
+                }
+            }
+
+            // Actualizar las direcciones
+            if ($request->has('direcciones')) {
+                foreach ($request->direcciones as $direccionData) {
+                    $direccion = $contacto->direcciones()->updateOrCreate(
+                        ['id' => $direccionData['id']], // Busca por id
+                        ['direccion' => $direccionData['direccion']] // Actualiza la dirección
+                    );
+                }
+            }
 
             return response()->json(['message' => 'Contacto actualizado correctamente', 'contacto' => $contacto], 200);
 

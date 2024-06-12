@@ -20,7 +20,7 @@ class StoreContactRequest extends FormRequest
             'telefonos' => 'array',
             'telefonos.*.numero' => 'required|numeric',
             'emails' => 'array',
-            'emails.*.email' => 'required|email',
+            'emails.*.correo' => 'required|email',
             'direcciones' => 'array',
             'direcciones.*.direccion' => 'required|string',
         ];
