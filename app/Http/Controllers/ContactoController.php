@@ -33,10 +33,11 @@ class ContactoController extends Controller
      */
     public function store(Request $request)
     {
+        // Validación de los datos de entrada
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string',
             'telefonos' => 'array',
-            'telefonos.*.numero' => 'required|string',
+            'telefonos.*.numero' => 'required|numeric',
             'emails' => 'array',
             'emails.*.email' => 'required|email',
             'direcciones' => 'array',
@@ -50,33 +51,43 @@ class ContactoController extends Controller
         try {
             DB::beginTransaction();
 
+            // Crear el contacto
             $contacto = new Contacto();
             $contacto->nombre = $request->nombre;
             $contacto->user_id = auth()->id();
             $contacto->save();
 
             // Guardar teléfonos
-            foreach ($request->telefonos as $telefonoData) {
-                $telefono = new Telefono();
-                $telefono->numero = $telefonoData['numero'];
-                $telefono->contacto_id = $contacto->id;
-                $telefono->save();
+            if ($request->has('telefonos')) {
+                foreach ($request->telefonos as $telefonoData) {
+                    $telefono = new Telefono([
+                        'numero' => $telefonoData['numero'],
+                        'contacto_id' => $contacto->id,
+                    ]);
+                    $telefono->save();
+                }
             }
 
-            // Guardar emails
-            foreach ($request->emails as $emailData) {
-                $correo = new Correo();
-                $correo->correo = $emailData['email'];
-                $correo->contacto_id = $contacto->id;
-                $correo->save();
+            // Guardar correos electrónicos
+            if ($request->has('emails')) {
+                foreach ($request->emails as $emailData) {
+                    $correo = new Correo([
+                        'correo' => $emailData['email'],
+                        'contacto_id' => $contacto->id,
+                    ]);
+                    $correo->save();
+                }
             }
 
             // Guardar direcciones
-            foreach ($request->direcciones as $direccionData) {
-                $direccion = new Direccion();
-                $direccion->direccion = $direccionData['direccion'];
-                $direccion->contacto_id = $contacto->id;
-                $direccion->save();
+            if ($request->has('direcciones')) {
+                foreach ($request->direcciones as $direccionData) {
+                    $direccion = new Direccion([
+                        'direccion' => $direccionData['direccion'],
+                        'contacto_id' => $contacto->id,
+                    ]);
+                    $direccion->save();
+                }
             }
 
             DB::commit();
