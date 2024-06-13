@@ -14,7 +14,8 @@
         <td>{{ contact.nombre }}</td>
         <td>
           <button type="button" class="btn btn-danger btn-sm me-3" (click)="deleteContact(contact.id)">Eliminar</button>
-          <button type="button" class="btn btn-info btn-sm" [routerLink]="['/crud/edit', contact.id]">Editar</button>
+          <button type="button" class="btn btn-info btn-sm me-3" [routerLink]="['/crud/edit', contact.id]">Editar</button>
+          <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/crud/detail', contact.id]">Detalle</button>
         </td>
       </tr>
     </tbody>

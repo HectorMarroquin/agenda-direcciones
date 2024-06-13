@@ -9,11 +9,11 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./contact-edit.component.css']
 })
 export class ContactEditComponent implements OnInit {
-  contact: any = {
+  contact = {
     nombre: '',
-    telefonos: [],
-    emails: [],
-    direcciones: [],
+    telefonos: [{ numero: '' }],
+    emails: [{ correo: '' }],
+    direcciones: [{ direccion: '' }],
     user_id: ''
   };
 
@@ -54,6 +54,9 @@ export class ContactEditComponent implements OnInit {
 
   addEmail(): void {
     this.contact.emails.push({ correo: '' });
+    //console.log(this.contact);
+
+
   }
 
   removeEmail(index: number): void {

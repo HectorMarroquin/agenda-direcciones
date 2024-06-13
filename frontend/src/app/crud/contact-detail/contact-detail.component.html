@@ -1,1 +1,36 @@
-<p>contact-detail works!</p>
+<div class="container">
+  <h2>{{ contact.nombre }}</h2>
+
+  <div class="container mt-4">
+    <!-- Teléfonos -->
+    <div class="mb-3" *ngIf="contact.telefonos && contact.telefonos.length > 0">
+      <h5>Teléfonos:</h5>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let telefono of contact.telefonos; let i = index">
+          <strong>Teléfono {{ i + 1 }}:</strong> {{ telefono.numero }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Correos Electrónicos -->
+    <div class="mb-3" *ngIf="contact.emails && contact.emails.length > 0">
+      <h5>Correos Electrónicos:</h5>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let email of contact.emails; let i = index">
+          <strong>Email {{ i + 1 }}:</strong> {{ email.correo }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Direcciones -->
+    <div class="mb-3" *ngIf="contact.direcciones && contact.direcciones.length > 0">
+      <h5>Direcciones:</h5>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let direccion of contact.direcciones; let i = index">
+          <strong>Dirección {{ i + 1 }}:</strong> {{ direccion.direccion }}
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
