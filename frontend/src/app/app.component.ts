@@ -1,6 +1,4 @@
-// app.component.ts
-
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -8,17 +6,12 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  title = 'address-book-app';
-  isLoggedIn = false;
+export class AppComponent {
 
-  constructor(private authService: AuthService) {}
-
-  ngOnInit() {
-    this.isLoggedIn = this.authService.isLoggedIn();
-  }
+  constructor(public authService: AuthService) {}
 
   logout() {
     this.authService.logout();
   }
 }
+

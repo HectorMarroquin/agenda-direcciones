@@ -1,5 +1,3 @@
-// auth.service.ts
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
@@ -18,10 +16,8 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
         if (response && response.access_token) {
-          console.log('Token recibido:', response.access_token);
           localStorage.setItem('access_token', response.access_token);
           localStorage.setItem('user_id', response.user_id.toString()); // Guarda el ID del usuario
-
           this.router.navigateByUrl('/crud/'); // Redirige a la ruta de lista de contactos
         } else {
           console.error('El token de acceso no está presente en la respuesta.');

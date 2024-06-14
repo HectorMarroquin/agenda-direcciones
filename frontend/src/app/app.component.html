@@ -1,4 +1,4 @@
-<div *ngIf="isLoggedIn">
+<div *ngIf="authService.isLoggedIn()">
   <nav class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container">
       <!-- Toggler/collapsibe Button -->
@@ -22,6 +22,6 @@
   <router-outlet></router-outlet>
 </div>
 
-<div *ngIf="!isLoggedIn">
+<div *ngIf="!authService.isLoggedIn()">
   <router-outlet></router-outlet>
 </div>
