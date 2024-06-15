@@ -119,14 +119,6 @@ class ContactoController extends Controller
             return response()->json(['message' => 'Error al obtener el contacto', 'error' => $e->getMessage()], 500);
         }
 
-        // try {
-        //     $contacto = Contacto::where('user_id', auth()->id())->findOrFail($id);
-
-        //     return response()->json(['contacto' => $contacto], 200);
-
-        // } catch (\Exception $e) {
-        //     return response()->json(['message' => 'Contacto no encontrado', 'error' => $e->getMessage()], 404);
-        // }
     }
 
     /**
