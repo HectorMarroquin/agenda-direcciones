@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContactService } from '../../services/contacto.service';
 import { AuthService } from '../../services/auth.service';
+import { MessageHandlingService } from '../../services/message-handling.service'; // Importar el servicio
 
 @Component({
   selector: 'app-contact-edit',
@@ -9,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./contact-edit.component.css']
 })
 export class ContactEditComponent implements OnInit {
+
   contact = {
     nombre: '',
     telefonos: [{ numero: '' }],
@@ -17,11 +19,19 @@ export class ContactEditComponent implements OnInit {
     user_id: ''
   };
 
+  errors = {
+    nombre: '',
+    telefonos: [] as string[],
+    emails: [] as string[],
+    direcciones: [] as string[]
+  }; // Definir el objeto de errores
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private contactService: ContactService,
-    private authService: AuthService
+    private authService: AuthService,
+    private errorHandlingService: MessageHandlingService
   ) {
     this.contact.user_id = this.authService.getUserId();
   }
@@ -54,9 +64,6 @@ export class ContactEditComponent implements OnInit {
 
   addEmail(): void {
     this.contact.emails.push({ correo: '' });
-    //console.log(this.contact);
-
-
   }
 
   removeEmail(index: number): void {
@@ -73,8 +80,6 @@ export class ContactEditComponent implements OnInit {
 
   onSubmit(): void {
     const contactId = +this.route.snapshot.paramMap.get('id')!;
-    console.log(this.contact);
-
     this.contactService.updateContact(contactId, this.contact).subscribe(
       () => {
         console.log('Contacto actualizado correctamente');
@@ -82,6 +87,7 @@ export class ContactEditComponent implements OnInit {
       },
       error => {
         console.error('Error al actualizar el contacto', error);
+        this.errorHandlingService.handleErrors(error.error.errors, this.errors);
       }
     );
   }

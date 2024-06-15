@@ -1,10 +1,11 @@
 <div class="container">
-  <h2>Editar Contacto</h2>
+  <h2>Agregar Contacto</h2>
 
   <form (ngSubmit)="onSubmit()" class="form">
     <div class="mb-3">
       <label for="nombre" class="form-label">Nombre:</label>
       <input type="text" class="form-control" id="nombre" [(ngModel)]="contact.nombre" name="nombre" required>
+      <div *ngIf="errors.nombre" class="text-danger">{{ errors.nombre }}</div>
     </div>
 
     <!-- Teléfonos -->
@@ -14,6 +15,7 @@
         <input type="text" class="form-control" id="telefono{{ i }}" [(ngModel)]="telefono.numero" name="telefono{{ i }}">
         <button type="button" class="btn btn-outline-danger" (click)="removeTelefono(i)">Eliminar</button>
       </div>
+      <div *ngIf="errors.telefonos[i]" class="text-danger">{{ errors.telefonos[i] }}</div>
     </div>
     <button type="button" class="btn btn-primary btn-sm" (click)="addTelefono()">Agregar Teléfono</button>
 
@@ -24,6 +26,7 @@
         <input type="email" class="form-control" id="email{{ i }}" [(ngModel)]="email.correo" name="email{{ i }}">
         <button type="button" class="btn btn-outline-danger" (click)="removeEmail(i)">Eliminar</button>
       </div>
+      <div *ngIf="errors.emails[i]" class="text-danger">{{ errors.emails[i] }}</div>
     </div>
     <button type="button" class="btn btn-primary btn-sm" (click)="addEmail()">Agregar Correo</button>
 
@@ -34,9 +37,13 @@
         <input type="text" class="form-control" id="direccion{{ i }}" [(ngModel)]="direccion.direccion" name="direccion{{ i }}">
         <button type="button" class="btn btn-outline-danger" (click)="removeDireccion(i)">Eliminar</button>
       </div>
+      <div *ngIf="errors.direcciones[i]" class="text-danger">{{ errors.direcciones[i] }}</div>
     </div>
     <button type="button" class="btn btn-primary btn-sm" (click)="addDireccion()">Agregar Dirección</button>
 
-    <button type="submit" class="btn btn-success mt-3">Guardar Cambios</button>
+    <div class="text-center mt-3">
+      <button type="submit" class="btn btn-success mt-3">Guardar Cambios</button>
+    </div>
+
   </form>
 </div>
